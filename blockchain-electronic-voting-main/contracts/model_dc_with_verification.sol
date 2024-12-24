@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
 
+// SPDX-License-Identifier: GPL-3.0
+
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../../node_modules/hardhat/console.sol";
-import "./verify.sol"; // Import Verifier contract
+import "hardhat/console.sol";
+
+import "./verifier.sol"; // Import Verifier contract
 
 contract Ballot {
 
@@ -37,6 +40,21 @@ contract Ballot {
         proposals.push(Proposal({name: "Donald Trump", voteCount: 0}));
     }
 
+        //Function to change name of voter
+    function changeName(string memory _name, address _address) public{
+        //Requirements
+        require(msg.sender != authority, "Authority can not vote");
+        require(msg.sender == _address, "Has no right to change name");
+
+        //Change name
+        voters[_address].name = _name;
+    }
+
+       //Function to log out
+    function logOut() public{
+        voters[msg.sender].rightGranted = false;
+    }
+
     // Function to vote with zk-SNARK proof verification
     function voteWithProof(
         uint[2] memory _proofA,
@@ -62,7 +80,20 @@ contract Ballot {
         proposals[proposalId].voteCount += 1;
     }
 
-    // Other functions remain unchanged...
+    function winningProposal() public view returns (uint winningProposal_, string memory winnerName_) {
+        //Winning proposal
+        uint winningVoteCount = 0;
+        for (uint p = 0; p < proposals.length; p++) {
+            if (proposals[p].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[p].voteCount;
+                winningProposal_ = p;
+            }
+        }
+        if (winningProposal_ == 0 ){
+            winnerName_ = "NULL";
+        } else {
+            winnerName_ = proposals[winningProposal_].name;
+        }
+    }
 
 }
-
