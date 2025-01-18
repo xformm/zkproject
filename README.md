@@ -1,6 +1,6 @@
-![Alt](https://github.com/xformm/zkproject/model.png?raw=true)
-Documentation
+# Documentation
 
+![Alt](https://github.com/xformm/zkproject/model.png?raw=true)
 install node
 ```
 brew install node
