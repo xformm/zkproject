@@ -1,3 +1,4 @@
+![Alt](https://github.com/xformm/zkproject/model.png?raw=true)
 Documentation
 
 install node
